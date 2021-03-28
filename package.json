@@ -2,8 +2,9 @@
   "name": "instaclone",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "dev": ""
+    "dev": "ts-node-dev server.ts"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/prove-ability/instaclone-backend/issues"
   },
-  "homepage": "https://github.com/prove-ability/instaclone-backend#readme"
+  "homepage": "https://github.com/prove-ability/instaclone-backend#readme",
+  "dependencies": {
+    "@types/node": "^14.14.37",
+    "apollo-server": "^2.22.1",
+    "graphql": "^15.5.0",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.3"
+  }
 }
