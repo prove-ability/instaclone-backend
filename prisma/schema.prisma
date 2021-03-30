@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 프리즈마는 기본적으로 required
+model Movie {
+  id        Int      @id @default(autoincrement())
+  title     String
+  year      Int
+  genre     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
