@@ -10,12 +10,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// 프리즈마는 기본적으로 required
-model Movie {
+model User {
   id        Int      @id @default(autoincrement())
-  title     String
-  year      Int
-  genre     String?
+  firstName String
+  lastName  String?
+  username  String   @unique
+  email     String   @unique
+  password  String
+  bio       String?
+  avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
