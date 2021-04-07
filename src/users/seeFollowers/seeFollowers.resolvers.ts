@@ -1,5 +1,4 @@
 import { Resolvers, Resolver } from "../../types";
-import { protectedResolver } from "../users.utils";
 
 const resolverFn: Resolver = async (_, { username, page }, { client }) => {
   try {
@@ -32,7 +31,7 @@ const resolverFn: Resolver = async (_, { username, page }, { client }) => {
 
 const resolvers: Resolvers = {
   Query: {
-    seeFollowers: protectedResolver(resolverFn),
+    seeFollowers: resolverFn,
   },
 };
 
