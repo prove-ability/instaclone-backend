@@ -1,9 +1,9 @@
 import * as bcrypt from "bcrypt";
 import { createWriteStream } from "fs";
-import { Resolvers } from "../../types";
+import { Resolvers, Resolver } from "../../types";
 import { protectedResolver } from "../users.utils";
 
-const resolverFn = async (
+const resolverFn: Resolver = async (
   _: any,
   { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser, client }

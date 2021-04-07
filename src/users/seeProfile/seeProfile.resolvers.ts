@@ -1,16 +1,29 @@
-import { Resolvers } from "../../types";
+import { Resolver, Resolvers } from "../../types";
 import { protectedResolver } from "../users.utils";
+
+const resolverFn: Resolver = async (_: any, { username }, { client }) => {
+  try {
+    const findedUser = await client.user.findUnique({
+      where: {
+        username,
+      },
+      include: { following: true, followers: true },
+    });
+    if (!findedUser) {
+      throw new Error("No user with that name exists.");
+    }
+    return findedUser;
+  } catch (e) {
+    return {
+      ok: false,
+      error: e.massage,
+    };
+  }
+};
 
 const resolvers: Resolvers = {
   Query: {
-    seeProfile: protectedResolver(async (_: any, { username }, { client }) => {
-      const findedUser = await client.user.findUnique({
-        where: {
-          username,
-        },
-      });
-      return findedUser;
-    }),
+    seeProfile: protectedResolver(resolverFn),
   },
 };
 

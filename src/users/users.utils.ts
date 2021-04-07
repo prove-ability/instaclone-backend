@@ -27,21 +27,6 @@ export const getUser = async (token: string | null) => {
   }
 };
 
-// export const protectedResolver = (ourResolver: Resolver) => (
-//   root: any,
-//   args: any,
-//   context: Context,
-//   info: any
-// ) => {
-//   if (!context.loggedInUser) {
-//     return {
-//       ok: false,
-//       error: "please login to perform this action.",
-//     };
-//   }
-//   return ourResolver(root, args, context, info);
-// };
-
 export function protectedResolver(ourResolver: Resolver) {
   return function (root: any, args: any, context: Context, info: any) {
     if (!context.loggedInUser) {
