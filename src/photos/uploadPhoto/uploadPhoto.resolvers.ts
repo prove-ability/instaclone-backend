@@ -1,6 +1,7 @@
 import { Hashtag } from "@prisma/client";
 import { Resolvers, Resolver } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolverFn: Resolver = async (
   _,
@@ -10,11 +11,7 @@ const resolverFn: Resolver = async (
   try {
     let hashtagObjs = [];
     if (caption) {
-      const hashtags = caption.match(/#[\w]+/g);
-      hashtagObjs = hashtags.map((hashtag: Hashtag) => ({
-        where: { hashtag },
-        create: { hashtag },
-      }));
+      hashtagObjs = processHashtags(caption);
     }
     const createdPhoto = await client.photo.create({
       data: {

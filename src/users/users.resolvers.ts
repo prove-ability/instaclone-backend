@@ -77,12 +77,18 @@ const isFollowingResolverFn: Resolver = async (
   }
 };
 
+const photosResolverFn: Resolver = async ({ id }, _, { client }) => {
+  const photos = await client.user.findUnique({ where: { id } }).photos();
+  return photos;
+};
+
 const resolvers: Resolvers = {
   User: {
     totalFollowing: totalFollowingResolverFn,
     totalFollowers: totalFollowersResolverFn,
     isMe: isMeResolverFn,
     isFollowing: isFollowingResolverFn,
+    photos: photosResolverFn,
   },
 };
 
