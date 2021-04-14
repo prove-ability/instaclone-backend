@@ -1,4 +1,3 @@
-import { makeExecutableSchema } from "apollo-server";
 import { loadFilesSync, mergeResolvers, mergeTypeDefs } from "graphql-tools";
 
 const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.ts`);

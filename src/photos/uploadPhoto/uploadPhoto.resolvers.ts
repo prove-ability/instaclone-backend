@@ -2,6 +2,7 @@ import { Hashtag } from "@prisma/client";
 import { Resolvers, Resolver } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
 import { processHashtags } from "../photos.utils";
+import { uploadToS3 } from "../../shared/shared.utils";
 
 const resolverFn: Resolver = async (
   _,
@@ -13,9 +14,10 @@ const resolverFn: Resolver = async (
     if (caption) {
       hashtagObjs = processHashtags(caption);
     }
+    const fileUrl = await uploadToS3(file, loggedInUser.id, "uploads");
     const createdPhoto = await client.photo.create({
       data: {
-        file,
+        file: fileUrl,
         caption,
         user: {
           connect: {
@@ -30,9 +32,8 @@ const resolverFn: Resolver = async (
       },
     });
     return createdPhoto;
-  } catch (error) {
-    console.log(error);
-    return false;
+  } catch {
+    return null;
   }
 };
 

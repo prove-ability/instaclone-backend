@@ -97,6 +97,39 @@ const likesResolverFn: Resolver = async ({ id }, _, { client }) => {
     return 0;
   }
 };
+/**
+ * 사진에 달린 댓글 수 불러오기
+ *
+ * @author Bard <hs.jang@atnp.co.kr>
+ * @see None
+ * @version 1.0 생성
+ */
+const commentsResolverFn: Resolver = async ({ id: photoId }, _, { client }) => {
+  try {
+    const comments = await client.comment.count({
+      where: {
+        photoId,
+      },
+    });
+    return comments;
+  } catch {
+    return 0;
+  }
+};
+/**
+ * 내 사진인지 확인
+ *
+ * @author Bard <hs.jang@atnp.co.kr>
+ * @see None
+ * @version 1.0 생성
+ */
+const isMineResolverFn: Resolver = ({ userId }, _, { loggedInUser }) => {
+  if (!loggedInUser) {
+    return false;
+  }
+  const isMine = userId === loggedInUser.id;
+  return isMine;
+};
 
 // computed filed defs
 const resolvers: Resolvers = {
@@ -104,6 +137,8 @@ const resolvers: Resolvers = {
     user: userResolverFn,
     hashtags: hashtagsResolverFn,
     likes: likesResolverFn,
+    comments: commentsResolverFn,
+    isMine: isMineResolverFn,
   },
   Hashtag: {
     photos: photosResolverFn,

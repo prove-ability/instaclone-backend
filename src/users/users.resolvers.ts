@@ -32,15 +32,11 @@ const totalFollowersResolverFn: Resolver = async (
   }
 };
 
-const isMeResolverFn: Resolver = async ({ id }: User, _, { loggedInUser }) => {
-  try {
-    if (!loggedInUser) {
-      return false;
-    }
-    return id === loggedInUser.id;
-  } catch {
+const isMeResolverFn: Resolver = ({ id }: User, _, { loggedInUser }) => {
+  if (!loggedInUser) {
     return false;
   }
+  return id === loggedInUser.id;
 };
 
 const isFollowingResolverFn: Resolver = async (
@@ -83,6 +79,7 @@ const photosResolverFn: Resolver = async ({ id }, _, { client }) => {
 };
 
 const resolvers: Resolvers = {
+  // User 의 computed field 추가
   User: {
     totalFollowing: totalFollowingResolverFn,
     totalFollowers: totalFollowersResolverFn,
