@@ -25,7 +25,7 @@ const resolverFn: Resolver = async (
      */
     const uglyPassword = await bcrypt.hash(password, 10);
     // 3. save and return user
-    const createdUser = await client.user.create({
+    const ok = await client.user.create({
       data: {
         username,
         email,
@@ -33,10 +33,21 @@ const resolverFn: Resolver = async (
         lastName,
         password: uglyPassword,
       },
+      select: {
+        id: true,
+      },
     });
-    return createdUser;
+    if (!ok) {
+      throw new Error("Create account failed.");
+    }
+    return {
+      ok: true,
+    };
   } catch (e) {
-    return e;
+    return {
+      ok: false,
+      error: e.message,
+    };
   }
 };
 

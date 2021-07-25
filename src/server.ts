@@ -44,11 +44,11 @@ const apollo = new ApolloServer({
 });
 
 const app = express();
-// 서버에 들어오는 모든 요청 확인
-app.use(logger("tiny"));
+app.use(logger("dev"));
 apollo.applyMiddleware({ app });
 // uploads 폴더를 인터넷에 올린다
-// app.use("/static", express.static("uploads"));
+app.use("/static", express.static("uploads"));
+
 const httpServer = http.createServer(app);
 apollo.installSubscriptionHandlers(httpServer);
 
