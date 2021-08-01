@@ -131,6 +131,31 @@ const isMineResolverFn: Resolver = ({ userId }, _, { loggedInUser }) => {
   return isMine;
 };
 
+const isLikedResolverFn: Resolver = async (
+  { id },
+  _,
+  { client, loggedInUser }
+) => {
+  if (!loggedInUser) {
+    return false;
+  }
+  const ok = await client.like.findUnique({
+    where: {
+      photoId_userId: {
+        photoId: id,
+        userId: loggedInUser.id,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (ok) {
+    return true;
+  }
+  return false;
+};
+
 // computed filed defs
 const resolvers: Resolvers = {
   Photo: {
@@ -139,6 +164,7 @@ const resolvers: Resolvers = {
     likes: likesResolverFn,
     comments: commentsResolverFn,
     isMine: isMineResolverFn,
+    isLiked: isLikedResolverFn,
   },
   Hashtag: {
     photos: photosResolverFn,
