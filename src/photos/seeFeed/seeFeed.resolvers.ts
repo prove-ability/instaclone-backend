@@ -31,7 +31,7 @@ const resolverFn: Resolver = async (
       },
     });
     return photos;
-  } catch {
+  } catch (e) {
     return [];
   }
 };

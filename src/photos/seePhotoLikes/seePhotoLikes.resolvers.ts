@@ -10,7 +10,6 @@ const resolverFn: Resolver = async (_, { id }, { client }) => {
         user: true,
       },
     });
-    console.log(likes);
     return likes.map((like) => like.user);
   } catch {
     return [];

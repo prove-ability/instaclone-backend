@@ -104,7 +104,11 @@ const likesResolverFn: Resolver = async ({ id }, _, { client }) => {
  * @see None
  * @version 1.0 생성
  */
-const commentsResolverFn: Resolver = async ({ id: photoId }, _, { client }) => {
+const commentNumberResolverFn: Resolver = async (
+  { id: photoId },
+  _,
+  { client }
+) => {
   try {
     const comments = await client.comment.count({
       where: {
@@ -156,12 +160,16 @@ const isLikedResolverFn: Resolver = async (
   return false;
 };
 
+const commentsResolverFn: Resolver = async ({ id }, _, { client }) =>
+  client.comment.findMany({ where: { photoId: id }, include: { user: true } });
+
 // computed filed defs
 const resolvers: Resolvers = {
   Photo: {
     user: userResolverFn,
     hashtags: hashtagsResolverFn,
     likes: likesResolverFn,
+    commentNumber: commentNumberResolverFn,
     comments: commentsResolverFn,
     isMine: isMineResolverFn,
     isLiked: isLikedResolverFn,
