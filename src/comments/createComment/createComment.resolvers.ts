@@ -15,7 +15,7 @@ const resolverFn: Resolver = async (
       throw new Error("Photo not found.");
     }
     // connet 를 잘 활용하자
-    await client.comment.create({
+    const newComment = await client.comment.create({
       data: {
         payload,
         photo: {
@@ -32,6 +32,7 @@ const resolverFn: Resolver = async (
     });
     return {
       ok: true,
+      id: newComment.id,
     };
   } catch (e) {
     return {
